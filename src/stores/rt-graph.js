@@ -158,7 +158,9 @@ var graph = Reflux.createStore({
     },
 
     walkChildren(id, fn) {
-    	this._invokeTree(id, 'root', fn, []);
+    	if (typeof this.doc.snapshot.nodes[id] !== 'undefined') {
+	    	this._invokeTree(id, 'root', fn, []);
+    	}
     },
 
     _invokeTree(id, k, fn, path) {

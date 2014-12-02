@@ -1,12 +1,6 @@
-/**
- * @jsx React.DOM
- */
 
-'use strict';
 
-var React = require('react');
-var Reflux = require('reflux');
-
+window.Reflux = require('reflux');
 window.ReactRouter = require('react-router');
 window.Route = ReactRouter.Route;
 window.Routes = ReactRouter.Routes;

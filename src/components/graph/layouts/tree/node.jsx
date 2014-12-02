@@ -9,6 +9,12 @@ var Editor = require('../../index.jsx');
 
 var Node = React.createClass({
 
+	getDefaultProps: function() {
+		return {
+			selected: false
+		};
+	},
+
 	clickHandler: function(e) {
 		actions.graph.selectNode(this.props.id);
 		e.preventDefault();
@@ -29,24 +35,13 @@ var Node = React.createClass({
 		});
 
 
-
-		var styles = [];
-		if (this.props.node.style == 'soft') {
-			styles.push[this.styles.soft];
-		} else {
-			styles.push[this.styles.hard];
-		}
-
-		if (this.props.selected) {
-			styles.push[this.styles.selected];
-		}
-
-
 		return (
 
 			<div onClick={this.clickHandler} styles={[
 					this.styles.node,
 					this.props.node.style == 'soft' ? this.styles.soft : this.styles.hard,
+					this.props.node.selectedTree === true ?
+						(this.props.del === true ? this.styles.delTree : this.styles.selectedTree) : null,
 					this.props.selected ? this.styles.selected : null,
 					transform,
 				]}>
@@ -56,6 +51,12 @@ var Node = React.createClass({
 	},
 
 	styles: {
+		selectedTree: ReactStyle({
+			border: '1px solid #2384D1',
+		}),
+		delTree: ReactStyle({
+			border: '1px solid #D12384 !important',
+		}),
 		node: ReactStyle({
 			boxSizing: 'border-box',
 			userSelect: 'none',

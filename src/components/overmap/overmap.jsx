@@ -6,6 +6,7 @@
 
 var React = require('react');
 var Reflux = require('reflux');
+var StripeButton = require('../external/stripe.jsx');
 
 var NewMap = require('../component/new-map.jsx');
 var Nav = require('./nav.jsx');
@@ -172,8 +173,10 @@ var OverMap = React.createClass({
 						onClick={self.openChild} />
 		});
 
+
 		return (
 			<div styles={this.styles.overmap}>
+				<StripeButton />
 				<Nav />
 				<header styles={this.styles.header}>
 					<NewMap ref='newmap' onCreate={this.mapCreated} />

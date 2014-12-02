@@ -15,6 +15,8 @@ var Tree = React.createClass({
 			edges: [],
 			framewidth: 0,
 			frameheight: 0,
+			selected: false,
+			del: false,
 		};
 	},
 
@@ -34,14 +36,29 @@ var Tree = React.createClass({
 	},
 
 	componentWillReceiveProps: function(nextProps) {
+		var nodes = this.state.nodes;
+
 		if (_.isObject(nextProps.graph)) {
- 			// if (nextProps.graph.edges.length == (_.size(nextProps.graph.nodes) - 1)) {
-				var processed = TreeSpread.run(nextProps.graph);
-				this.setState({
-					nodes: processed
-				});
-			// }
+ 			if (nextProps.graph.edges.length == (_.size(nextProps.graph.nodes) - 1)) {
+				nodes = TreeSpread.run(nextProps.graph);
+			}
 		}
+
+		if (typeof nextProps.selected !== 'undefined') {
+			if (this.props.selected) {
+				rt.graph.walkChildren(this.props.selected, (id, k, children, path) => {
+					nodes[id].selectedTree = false;
+				});
+			}
+			if (nextProps.selected) {
+				rt.graph.walkChildren(nextProps.selected, (id, k, children, path) => {
+					nodes[id].selectedTree = true;
+				});
+			}
+		}
+		this.setState({
+			nodes: nodes
+		});
 	},
 
 	handleClick: function(e) {
@@ -61,13 +78,21 @@ var Tree = React.createClass({
 	render: function() {
 		//todo fix all the rerendering on resize, clicking shit
 		//todo optimize node modifies to not recalc EVERYthing
+
+
+
     	var nodes = _.map(this.state.nodes, (v, k) => {
     		return <Node
 	    		key={'node' + k}
 	    		node={v}
 	    		id={k}
+	    		del={this.props.del}
 	    		selected={this.props.selected == k} />;
     	});
+
+    	if (typeof this.state.nodes['root'] !== 'undefined') {
+			document.title = this.state.nodes['root'].text;
+    	}
 
     	var edges = _.map(this.props.graph.edges, (v, k) => {
     		return (<Edge key={v.a + 'treeedge' + v.b}

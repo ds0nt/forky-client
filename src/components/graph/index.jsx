@@ -47,6 +47,7 @@ var GraphEditor = React.createClass({
 		return {
 			data: {},
 			selected: false,
+			del: false,
 		}
 	},
 
@@ -64,7 +65,6 @@ var GraphEditor = React.createClass({
 	},
 
 	componentDidMount() {
-
 		Mousetrap.bind(['tab'], (e) => {
 			e.preventDefault();
 
@@ -79,11 +79,28 @@ var GraphEditor = React.createClass({
 		Mousetrap.bind(['del'], (e) => {
 			e.preventDefault();
 
+			if (!this.isSelectMode() || this.state.selected == 'root') {
+				return false;
+			}
+
+			if (!this.state.del) {
+				this.setState({
+					del: true
+				});
+			} else {
+				actions.graph.deselectNode();
+				rt.graph.deleteNode(this.state.selected);
+			}
+
+		});
+		Mousetrap.bind(['esc'], (e) => {
+			e.preventDefault();
+
 			if (!this.isSelectMode()) {
 				return false;
 			}
 
-			rt.graph.deleteNode(this.state.selected);
+			actions.graph.deselectNode();
 		});
 
 	},
@@ -114,14 +131,11 @@ var GraphEditor = React.createClass({
 	},
 
 	onDeselectNode() {
-		this.setState({selected: false});
+		this.setState({selected: false, del: false});
 	},
 
 	onEditNode(text) {
 		rt.graph.updateNode(this.state.selected, {text: text});
-		actions.graph.selectNode();
-
-		//rt.graph.deleteNode(this.state.selected);
 	},
 
     render () {
@@ -132,7 +146,7 @@ var GraphEditor = React.createClass({
 		}
 
         return <div ref="app" styles={this.styles.editor}>
-        	<Layout graph={this.state.data} selected={this.state.selected} />
+        	<Layout graph={this.state.data} selected={this.state.selected} del={this.state.del} />
         	{controls}
         </div>;
     },
