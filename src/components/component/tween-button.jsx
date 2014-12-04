@@ -31,7 +31,6 @@ var MorphButton = React.createClass({
 
 	componentDidUpdate: function(prevProps, prevState) {
 		if (prevState.rect == null && this.props.first && !this.state.open) {
-			console.log('AUTO OPEN');
 			this.toggle();
 		}
 	},
@@ -145,13 +144,17 @@ var MorphButton = React.createClass({
 		}
 
 		var propStyle = ReactStyle(this.props.style);
+		
+		var bgstyle = ReactStyle({
+			backgroundColor: this.props.background ? this.props.background : '#3594cb'
+		});
 
 		return (
 			<div styles={this.styles.tweenButton}>
-				<div styles={[this.styles.morpher, tweenStyle]}>
+				<div styles={[this.styles.morpher, bgstyle, tweenStyle]}>
 					<div ref='inner' styles={[this.styles.inner, innerStyle]}>{this.props.children}</div>
 				</div>
-				<button ref='button' onClick={this.toggle} styles={[this.styles.button, buttonStyle, propStyle]}>
+				<button ref='button' onClick={this.toggle} styles={[this.styles.button, bgstyle, buttonStyle, propStyle]}>
 					{this.props.text}
 				</button>
 			</div>
@@ -170,7 +173,6 @@ var MorphButton = React.createClass({
 
 			padding: '0 1em',
 			border: 'none',
-			backgroundColor: '#3594cb',
 			color: '#f9f6e5',
 			textTransform: 'uppercase',
 			letterSpacing: '1px',
@@ -187,7 +189,6 @@ var MorphButton = React.createClass({
 			minWidth: 300,
 			zIndex: '1000',
 
-			backgroundColor: '#3594cb',
 			position: 'absolute',
 			visibility: 'hidden',
 			top: 0,

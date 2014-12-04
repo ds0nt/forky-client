@@ -10,6 +10,7 @@ var Reflux = require('reflux');
 
 var MorphButton = require('./component/tween-button.jsx');
 var MorphForm = require('./component/morph-form.jsx');
+var Morph = require('./component/morph.jsx');
 
 
 var Landing = React.createClass({
@@ -20,6 +21,7 @@ var Landing = React.createClass({
 			loginLoading: false,
 			registerLoading: false,
 			appdata: null,
+			donate: false,
 		};
 	},
 
@@ -49,6 +51,10 @@ var Landing = React.createClass({
 		api.auth.register(data);
 	},
 
+	toggleDonate() {
+		this.refs.donate.toggle();
+	},
+
 	render() {
 		var loginForm = {
 			inputs: [
@@ -72,10 +78,22 @@ var Landing = React.createClass({
 
 		return (
 			<div styles={this.styles.landingContainer}>
+
+					<MorphButton background="#a15451" style={{float: 'right', margin: 10, borderRadius: 20, height: 40, width: 100}} ref='donate' text='donate' onClick={this.toggleDonate}>
+						<Morph styles={this.styles.donate} onClose={this.toggleDonate}>
+							<h2 styles={this.styles.donateh2}>{"Donate! <3"}</h2>
+							<form styles={this.styles.donateform} action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+								<input type="hidden" name="cmd" value="_s-xclick" />
+								<input type="hidden" name="hosted_button_id" value="VAYRWAXEMBHB2" />
+								<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+								<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+							</form>
+						</Morph>
+					</MorphButton>
 				<div styles={this.styles.landing}>
 					<span styles={this.styles.company}>21cdawn</span>
 					<h1 styles={this.styles.title}>MetaMind</h1>
-
+					<span style={{letterSpacing: 0.7, textIndent: '2em', display: 'block', margin: '0px -40px 40px -40px', textAlign: 'left', lineHeight: '1.5em'}}>{"MetaMind is a platform for real-time collaborative brainstorming and mind mapping. Mind maps are perfect to edit as a team, share with others, and to get your idea across."}</span>
 					<div styles={this.styles.morphButton}>
 						<MorphButton ref='login' text='Login' onClick={this.toggleLogin}>
 							<MorphForm
@@ -99,10 +117,49 @@ var Landing = React.createClass({
 		);
 	},
 
+		
+	paypal_active() {
+		return this.state.donate == false ? null : ReactStyle({
+			visibility: 'visible'
+		});
+	},
+
 	styles: {
+
+		donateMorph: ReactStyle({
+			textAlign: 'center',
+			margin: '40px 0 10px 0',
+			display: 'block',
+		}),
+
+		donateBtn: ReactStyle({
+			color: 'white',
+			width: 100,
+		}),
+
+		donate: ReactStyle({
+            padding: '10px 30px 30px 30px',
+			color: 'white',
+			margin: 'auto',
+            textAlign: 'center',
+		}),
+		donateh2: ReactStyle({
+            margin: 0,
+            padding: '0.4em 0 0.3em',
+            textAlign: 'center',
+            fontWeight: '300',
+            fontSize: '3.5em',
+		}),
+
+		donateform: ReactStyle({
+            padding: '10px',
+            width: 300,
+            lineHeight: '1.7em',
+		}),
+
 		landing: ReactStyle({
 			position: 'absolute',
-			top: '-8em',
+			top: '-18em',
 			left: 0,
 			right: 0,
 			bottom: 0,
