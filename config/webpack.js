@@ -25,14 +25,11 @@ module.exports = function(release) {
   var plugins = [];
 
   if (release) {
-    plugins.push(new webpack.DefinePlugin({'config': require('./config-release.js')}));
-    // plugins.push(new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}));
+    plugins.push(new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}));
     plugins.push(new webpack.optimize.DedupePlugin());
     plugins.push(new webpack.optimize.UglifyJsPlugin());
     plugins.push(new webpack.optimize.OccurenceOrderPlugin());
     plugins.push(new webpack.optimize.AggressiveMergingPlugin());
-  } else {
-    plugins.push(new webpack.DefinePlugin({'config': require('./config.js')}));
   }
 
   return {
@@ -40,8 +37,8 @@ module.exports = function(release) {
 
     output: {
       filename: 'app.js',
-      path: './build/',
-      publicPatch: './build/'
+      path: './dist/',
+      publicPatch: './dist/'
     },
 
     cache: !release,
@@ -61,11 +58,6 @@ module.exports = function(release) {
 
     module: {
       preLoaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'jshint'
-        }
       ],
 
       loaders: [

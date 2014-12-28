@@ -3,9 +3,13 @@
 var React = require('react');
 
 window.hostPath = function(path) {
-	return config.apiEndpoint + path;
+	return '//' + document.location.host + path;
+	// return config.apiEndpoint + path;
 };
-
+window.socketPath = function() {
+	return 'ws://' + document.location.host + '/ws/'
+	// return config.socketEndpoint;
+};
 
 window._ = require('underscore');
 

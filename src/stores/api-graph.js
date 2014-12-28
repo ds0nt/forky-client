@@ -13,7 +13,7 @@ var graph = Reflux.createStore({
 
     createGraph(graph) {
         return new Promise((resolve, reject) => {
-            api.post('/graph', graph).then((res) => {
+            api.post('/api/graph', graph).then((res) => {
                 if (res.error) {
                     logError(res.error);
                     return reject(error);
@@ -32,7 +32,7 @@ var graph = Reflux.createStore({
 
     getGraphs() {
         //posting because gets are retarted with qwest
-        api.post('/graphlist').then((res) => {
+        api.post('/api/graphlist').then((res) => {
             if(res.error) {
                 return reject(error);
             }

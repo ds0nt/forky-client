@@ -10,11 +10,13 @@ var auth = Reflux.createStore({
     },
 
     init() {
+        console.log('init');
+        console.log('init');
+        
     	//Remembered Auth Token + AppData
         var stored = this.storedData();
         if (stored) {
             this.setAppdata(stored);
-        	this.connectSocket(this.appdata.token.id);
         } else {
         	this.connectSocket();
         }
@@ -53,9 +55,9 @@ var auth = Reflux.createStore({
     	this.disconnectSocket();
     	var ws = null;
     	if (typeof token === 'string') {
-        	ws = new WebSocket(config.socketEndpoint + token);
+        	ws = new WebSocket(socketPath() + token);
     	} else {
-    		ws = new WebSocket(config.socketEndpoint);
+    		ws = new WebSocket(socketPath());
     	}
         window.sjsConnection = new sharejs.Connection(ws);
         // sjsConnection.debug = true;
@@ -85,7 +87,7 @@ var auth = Reflux.createStore({
     //Call Server
     //TODO move login/register/logout
     login(data) {
-        api.post('/login', data).then((res) => {
+        api.post('/api/login', data).then((res) => {
             this.setAppdata(res);
         }).catch(function(message)  {
             handleApiError(this, this.status, message);
@@ -93,7 +95,7 @@ var auth = Reflux.createStore({
     },
 
     register(data) {
-        api.post('/user', data).then((res) => {
+        api.post('/api/user', data).then((res) => {
             if (res.inserted == 1) {
                 this.login(data);
             }
@@ -127,7 +129,7 @@ var auth = Reflux.createStore({
     },
 
     setHelpSeen() {
-        api.post('/user/setHelpSeen').then((res) => {
+        api.post('/api/user/setHelpSeen').then((res) => {
             console.log('res', res);
             this.appdata.user.first_login = false;
             localStorage.setItem('appdata', JSON.stringify(this.appdata));

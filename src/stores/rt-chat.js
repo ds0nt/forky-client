@@ -6,7 +6,6 @@ var chat = Reflux.createStore({
     i: 0,
 
     init() {
-
     },
 
     getDefaultData() {

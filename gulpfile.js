@@ -18,7 +18,7 @@ var browserSync = require('browser-sync');
 var argv = require('minimist')(process.argv.slice(2));
 
 // Settings
-var DEST = './build';                         // The build output folder
+var DEST = './dist';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
 var GOOGLE_ANALYTICS_ID = 'UA-XXXXX-X';       // https://www.google.com/analytics/web/
 var AUTOPREFIXER_BROWSERS = [                 // https://github.com/ai/autoprefixer
@@ -70,7 +70,6 @@ gulp.task('assets', function() {
   return gulp.src(src.assets)
     .pipe($.changed(DEST))
     .pipe(gulp.dest(DEST))
-    .pipe($.size({title: 'assets'}));
 });
 
   src.images = 'src/images/**';
@@ -78,12 +77,7 @@ gulp.task('assets', function() {
 gulp.task('images', function() {
   return gulp.src(src.images)
     .pipe($.changed(DEST + '/images'))
-    .pipe($.imagemin({
-      progressive: true,
-      interlaced: true
-    }))
-    .pipe(gulp.dest(DEST + '/images'))
-    .pipe($.size({title: 'images'}));
+    .pipe(gulp.dest(DEST + '/images'));
 });
 
 src.styles = 'src/styles/**/*.{css,scss}';
@@ -96,12 +90,8 @@ gulp.task('styles', function() {
       sourceMap: !RELEASE,
       sourceMapBasepath: __dirname
     }))
-    .on('error', console.error.bind(console))
-    .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
-    .pipe($.csscomb())
-    .pipe($.if(RELEASE, $.minifyCss()))
+    .on('error', console.error.bind(console))    
     .pipe(gulp.dest(DEST + '/css'))
-    .pipe($.size({title: 'styles'}));
 });
 
 // Bundle
