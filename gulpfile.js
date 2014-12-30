@@ -18,7 +18,7 @@ var browserSync = require('browser-sync');
 var argv = require('minimist')(process.argv.slice(2));
 
 // Settings
-var DEST = './dist';                         // The build output folder
+var DEST = argv.dest || './dist';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
 var GOOGLE_ANALYTICS_ID = 'UA-XXXXX-X';       // https://www.google.com/analytics/web/
 var AUTOPREFIXER_BROWSERS = [                 // https://github.com/ai/autoprefixer
@@ -50,7 +50,7 @@ var pkgs = (function() {
 gulp.task('default', ['serve']);
 
 // Clean up
-gulp.task('clean', del.bind(null, [DEST]));
+gulp.task('clean', del.bind(null, [DEST], { force: true }));
 
 // 3rd party libraries
 gulp.task('vendor', function() {
@@ -97,7 +97,11 @@ gulp.task('styles', function() {
 // Bundle
 gulp.task('bundle', function(cb) {
   var started = false;
+  
   var config = require('./config/webpack.js')(RELEASE);
+  config.output.path = DEST;
+  config.output.publicPatch = DEST;
+  
   var bundler = webpack(config);
 
   function bundle(err, stats) {

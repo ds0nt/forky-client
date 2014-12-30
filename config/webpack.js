@@ -25,7 +25,7 @@ module.exports = function(release) {
   var plugins = [];
 
   if (release) {
-    plugins.push(new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}));
+    // plugins.push(new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}));
     plugins.push(new webpack.optimize.DedupePlugin());
     plugins.push(new webpack.optimize.UglifyJsPlugin());
     plugins.push(new webpack.optimize.OccurenceOrderPlugin());
@@ -36,9 +36,7 @@ module.exports = function(release) {
     entry: './src/app.js',
 
     output: {
-      filename: 'app.js',
-      path: './dist/',
-      publicPatch: './dist/'
+      filename: 'app.js'
     },
 
     cache: !release,

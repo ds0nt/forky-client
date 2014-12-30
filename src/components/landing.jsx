@@ -7,6 +7,8 @@
 var React = require('react');
 var Reflux = require('reflux');
 
+var Login = require('./component/morph/login.jsx');
+var Register = require('./component/morph/register.jsx');
 
 var MorphButton = require('./component/tween-button.jsx');
 var MorphForm = require('./component/morph-form.jsx');
@@ -18,8 +20,6 @@ var Landing = React.createClass({
 
 	getInitialState() {
 		return {
-			loginLoading: false,
-			registerLoading: false,
 			appdata: null,
 			donate: false,
 		};
@@ -34,47 +34,14 @@ var Landing = React.createClass({
 	onEnter() {
 		this.props.onEnter()
 	},
-
-	toggleLogin() {
-		this.refs.login.toggle();
-	},
-
-	toggleRegister() {
-		this.refs.register.toggle();
-	},
-
-	submitLogin(data) {
-		api.auth.login(data);
-	},
-
-	submitRegister(data) {
-		api.auth.register(data);
-	},
-
+			
 	toggleDonate() {
 		this.refs.donate.toggle();
 	},
 
 	render() {
-		var loginForm = {
-			inputs: [
-				{id: 'email', label: 'Email', type: 'email'},
-				{id: 'password', label: 'Password', type: 'password'},
-			],
-			buttons: [
-				{id: 'create-btn', text:'Login', loading: this.state.loginLoading},
-			]
-		};
-		var registerForm = {
-			inputs: [
-				{id: 'email', label: 'Email', type: 'email'},
-				{id: 'password', label: 'Password', type: 'password'},
-				{id: 'password2', label: 'Confirm Password', type: 'password'},
-			],
-			buttons: [
-				{id: 'create-btn', text:'Register', loading: this.state.registerLoading},
-			]
-		};
+
+		var slogan1 = "Collaborative Concept Mapping";
 
 		return (
 			<div styles={this.styles.landingContainer}>
@@ -93,24 +60,17 @@ var Landing = React.createClass({
 				<div styles={this.styles.landing}>
 					<span styles={this.styles.company}>21cdawn</span>
 					<h1 styles={this.styles.title}>MetaMind</h1>
-					<span style={{letterSpacing: 0.7, textIndent: '2em', display: 'block', margin: '0px -40px 40px -40px', textAlign: 'left', lineHeight: '1.5em'}}>{"MetaMind is a platform for real-time collaborative brainstorming and mind mapping. Mind maps are perfect to edit as a team, share with others, and to get your idea across."}</span>
+					
+					<span styles={this.styles.slogan}>
+						{slogan1}
+					</span>
+					
 					<div styles={this.styles.morphButton}>
-						<MorphButton ref='login' text='Login' onClick={this.toggleLogin}>
-							<MorphForm
-								title='Login'
-								form={loginForm}
-								onSubmit={this.submitLogin}
-								onClose={this.toggleLogin} />
-						</MorphButton>
+						<Login />
 					</div>
+					
 					<div styles={this.styles.morphButton}>
-						<MorphButton ref='register' text='Register' onClick={this.toggleRegister}>
-							<MorphForm
-								title='Register'
-								form={registerForm}
-								onSubmit={this.submitRegister}
-								onClose={this.toggleRegister} />
-						</MorphButton>
+						<Register />
 					</div>
 				</div>
 			</div>
@@ -126,6 +86,14 @@ var Landing = React.createClass({
 
 	styles: {
 
+		slogan: ReactStyle({
+			letterSpacing: '1px',
+			fontSize: '125%',
+			display: 'block',
+			margin: '0px -40px 65px -40px',
+			textAlign: 'center',
+			lineHeight: '0.2em',
+		}),
 		donateMorph: ReactStyle({
 			textAlign: 'center',
 			margin: '40px 0 10px 0',

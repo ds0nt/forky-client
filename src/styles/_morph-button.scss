@@ -184,21 +184,6 @@
 		font-size: 0.7em;
 	}
 
-	form p.errors {
-		height: 0;
-		overflow: hidden;
-		margin: 0 0 5px 0;
-		font-size: 1.2em;
-		font-weight: bold;
-		color: #FFA748;
-		transition: height 0.2s 0.3s;
-	}
-
-	form p.errors.showing {
-		height: 1.5em;
-	}
-
-
 	label {
 		display: block;
 		padding: 10px 0 0;

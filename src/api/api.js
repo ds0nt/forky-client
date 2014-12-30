@@ -25,11 +25,23 @@ var api = {
 	},
 
 	logError(error) {
+
 	  	qwest.post('/analytics/error').then((response) => {
 
 	    }).catch((err) => {
 
 	    });
+	},
+
+	login(data, fn) {
+		return new Promise(function (resolve, reject) {
+			fn(api.post('/api/login', data), resolve, reject);
+		});
+	},
+	register(data, fn) {
+		return new Promise(function (resolve, reject) {
+			fn(api.post('/api/user', data), resolve, reject);
+		});
 	}
 };
 

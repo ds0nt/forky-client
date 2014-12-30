@@ -43,8 +43,16 @@ var ModalButton = React.createClass({
 
 var MorphForm = React.createClass({
 
+    getInitialState: function() {
+        return {
+            error: false
+        }
+    },
+
     onSubmit: function(ev) {
         ev.preventDefault();
+
+        this.setState({error: false});
 
         var data = {};
         this.props.form.inputs.map(function(v) {
@@ -52,6 +60,10 @@ var MorphForm = React.createClass({
         }.bind(this));
 
         this.props.onSubmit(data);
+    },
+
+    onError: function(error) {
+        this.setState({error: error});
     },
 
     render: function() {
@@ -63,12 +75,18 @@ var MorphForm = React.createClass({
             return <ModalButton key={'modalbutton' + v.id} text={v.text} id={v.id} onClick={v.onClick} loading={v.loading} />;
         });
 
+        var error = this.state.error;
+        var errorStyles = [this.styles.errors];
+        if (error) {
+            errorStyles.push(this.styles.errorShowing)
+        }
+
         return (
             <div className='content-style-form' styles={this.styles.morphForm}>
                 <span className='icon icon-close' onClick={this.props.onClose}>Close the dialog</span>
                 <h2>{this.props.title}</h2>
                 <form action='' ref='form' id='loginform' onSubmit={this.onSubmit}>
-                    <p className='errors'></p>
+                    <p styles={errorStyles}>{error}</p>
                     {inputs}
                     {buttons}
                 </form>
@@ -76,6 +94,18 @@ var MorphForm = React.createClass({
     },
 
     styles: {
+        errors: ReactStyle({
+            height: "0",
+            overflow: "hidden",
+            margin: "0 0 5px 0",
+            fontSize: "1.2em !important",
+            fontWeight: "bold",
+            color: "#FFA748",
+            transition: "height 0.2s 0.3s",
+        }),
+        errorShowing: ReactStyle({
+            height: "1.5em",
+        }),
     	morphForm: ReactStyle({
     		width: 400,
     		margin: 0,

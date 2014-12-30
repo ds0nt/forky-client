@@ -87,20 +87,27 @@ var auth = Reflux.createStore({
     //Call Server
     //TODO move login/register/logout
     login(data) {
-        api.post('/api/login', data).then((res) => {
-            this.setAppdata(res);
-        }).catch(function(message)  {
-            handleApiError(this, this.status, message);
+        return api.login(data, (http, resolve, reject) => {
+            http.then((res) => {
+                this.setAppdata(res);
+                resolve(res);
+            }).catch(function (message) {
+                reject(this.status);
+            });
         });
     },
 
     register(data) {
-        api.post('/api/user', data).then((res) => {
-            if (res.inserted == 1) {
-                this.login(data);
-            }
-        }).catch(function(message)  {
-            handleApiError(this, this.status, message);
+        return api.register(data, (http, resolve, reject) => {
+            http.then((res) => {
+                if (res.inserted == 1) {
+                    resolve(data); 
+                } else {
+                    reject("duplicate");                
+                }
+            }).catch(function (message) {
+                reject(this.status);
+            });
         });
     },
 
