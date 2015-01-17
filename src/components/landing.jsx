@@ -48,7 +48,7 @@ var Landing = React.createClass({
 
 					<MorphButton background="#a15451" style={{float: 'right', margin: 10, borderRadius: 20, height: 40, width: 100}} ref='donate' text='donate' onClick={this.toggleDonate}>
 						<Morph styles={this.styles.donate} onClose={this.toggleDonate}>
-							<h2 styles={this.styles.donateh2}>{"Donate! <3"}</h2>
+							<h2 styles={this.styles.donateh2}>{"Support Forky! <3"}</h2>
 							<form styles={this.styles.donateform} action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 								<input type="hidden" name="cmd" value="_s-xclick" />
 								<input type="hidden" name="hosted_button_id" value="VAYRWAXEMBHB2" />
@@ -58,8 +58,7 @@ var Landing = React.createClass({
 						</Morph>
 					</MorphButton>
 				<div styles={this.styles.landing}>
-					<span styles={this.styles.company}>21cdawn</span>
-					<h1 styles={this.styles.title}>MetaMind</h1>
+					<h1 styles={this.styles.title}>Forky</h1>
 					
 					<span styles={this.styles.slogan}>
 						{slogan1}
