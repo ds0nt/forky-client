@@ -1,17 +1,10 @@
-# Forky Web Client
+# Forky Client
 
-Forky is a real-time collaborative mind-mapping application. Join us at [forky.io](http://forky.io). You can also run your own [forky server](http://github.com/21cdawn/forky-server).
+Forky is for real-time and collaborative mind maps. 
 
-Forky has [tools](http://github.com/21cdawn/forky-tools)
+Check it out at [forky.io](http://forky.io).
 
-
-## Contribute
-
-**Forky**: What's up? ^^
-
-We are actively developing the project towards the current [roadmap] (http://forky.io/roadmap) and have some [pretty epic goals](http://forky.io/vision). Come chill in freenode IRC at ##forky. 
-
-Forky is a project of [Dawn](http://itdawns.org). Check `em out.
+The client is built using reactjs, websockets, sharejs, webpack, and gulp among other things. [Forky Server](http://github.com/21cdawn/forky-server) will run the backend.
 
 
 ## Build from Source
@@ -30,3 +23,10 @@ Forky is a project of [Dawn](http://itdawns.org). Check `em out.
  # or build repeatedly
  $ gulp watch
 ```
+
+
+## Contribute
+
+We are actively developing the project towards the current [roadmap] (http://forky.io/roadmap) and have some [pretty epic goals](http://forky.io/vision). Come chill in freenode IRC at ##forky. 
+
+Forky is a project of [Dawn](http://itdawns.org). Check `em out.
