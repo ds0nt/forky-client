@@ -11,7 +11,6 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var path = require('path');
-var merge = require('merge-stream');
 var runSequence = require('run-sequence');
 var webpack = require('webpack');
 var browserSync = require('browser-sync');
@@ -20,47 +19,32 @@ var argv = require('minimist')(process.argv.slice(2));
 // Settings
 var DEST = argv.dest || './dist';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
-var GOOGLE_ANALYTICS_ID = 'UA-XXXXX-X';       // https://www.google.com/analytics/web/
-var AUTOPREFIXER_BROWSERS = [                 // https://github.com/ai/autoprefixer
-  'ie >= 10',
-  'ie_mob >= 10',
-  'ff >= 30',
-  'chrome >= 34',
-  'safari >= 7',
-  'opera >= 23',
-  'ios >= 7',
-  'android >= 4.4',
-  'bb >= 10'
-];
+
 
 var src = {};
 var watch = false;
-var pkgs = (function() {
-  var pkgs = {};
-  var map = function(source) {
-    for (var key in source) {
-      pkgs[key.replace(/[^a-z0-9]/gi, '')] = source[key].substring(1);
-    }
-  };
-  map(require('./package.json').dependencies);
-  return pkgs;
-}());
+
+// var pkgs = (function() {
+//   var pkgs = {};
+//   var map = function(source) {
+//     for (var key in source) {
+//       pkgs[key.replace(/[^a-z0-9]/gi, '')] = source[key].substring(1);
+//     }
+//   };
+//   map(require('./package.json').dependencies);
+//   return pkgs;
+// }());
 
 // The default task
-gulp.task('default', ['serve']);
+gulp.task('default', ['build']);
 
 // Clean up
 gulp.task('clean', del.bind(null, [DEST], { force: true }));
 
 // 3rd party libraries
 gulp.task('vendor', function() {
-  return merge(
-    gulp.src('./node_modules/jquery/dist/**')
-      .pipe(gulp.dest(DEST + '/vendor/jquery-' + pkgs.jquery)),
-    gulp.src('./node_modules/bootstrap/dist/fonts/**')
-      .pipe(gulp.dest(DEST + '/fonts')),
     gulp.src('./node_modules/share/webclient/**')
-      .pipe(gulp.dest(DEST + '/js'))
+      .pipe(gulp.dest(DEST + '/js')
   );
 });
 
@@ -70,14 +54,6 @@ gulp.task('assets', function() {
   return gulp.src(src.assets)
     .pipe($.changed(DEST))
     .pipe(gulp.dest(DEST))
-});
-
-  src.images = 'src/images/**';
-// Images
-gulp.task('images', function() {
-  return gulp.src(src.images)
-    .pipe($.changed(DEST + '/images'))
-    .pipe(gulp.dest(DEST + '/images'));
 });
 
 src.styles = 'src/styles/**/*.{css,scss}';
@@ -90,18 +66,18 @@ gulp.task('styles', function() {
       sourceMap: !RELEASE,
       sourceMapBasepath: __dirname
     }))
-    .on('error', console.error.bind(console))    
+    .on('error', console.error.bind(console))
     .pipe(gulp.dest(DEST + '/css'))
 });
 
 // Bundle
 gulp.task('bundle', function(cb) {
   var started = false;
-  
+
   var config = require('./config/webpack.js')(RELEASE);
   config.output.path = DEST;
   config.output.publicPatch = DEST;
-  
+
   var bundler = webpack(config);
 
   function bundle(err, stats) {
@@ -111,6 +87,7 @@ gulp.task('bundle', function(cb) {
     if (err) {
       throw new $.util.PluginError('webpack', err);
     }
+
     if (!started) {
       started = true;
       return cb();
@@ -127,7 +104,7 @@ gulp.task('bundle', function(cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function(cb) {
-  runSequence(['vendor', 'assets', 'images', 'styles', 'bundle'], cb);
+  runSequence(['vendor', 'assets', 'styles', 'bundle'], cb);
 });
 
 gulp.task('watch', function(cb) {
@@ -135,7 +112,6 @@ gulp.task('watch', function(cb) {
 
   runSequence('build', function() {
     gulp.watch(src.assets, ['assets']);
-    gulp.watch(src.images, ['images']);
     gulp.watch(src.styles, ['styles']);
     cb();
   });
@@ -166,6 +142,11 @@ gulp.task('serve', function(cb) {
             path.extname(uri.pathname) === '' &&
             fs.existsSync(DEST + uri.pathname + '.html')) {
             req.url = uri.pathname + '.html' + (uri.search || '');
+
+            //allow /app/ to load to index.html
+            if (req.url.indexOf('/app/') == 0) {
+              req.url = "/";
+            }
           }
           cb();
         }
@@ -173,31 +154,10 @@ gulp.task('serve', function(cb) {
     });
 
     gulp.watch(src.assets, ['assets']);
-    gulp.watch(src.images, ['images']);
     gulp.watch(src.styles, ['styles']);
     gulp.watch(DEST + '/**/*.*', function(file) {
       browserSync.reload(path.relative(__dirname, file.path));
     });
     cb();
   });
-});
-
-// Deploy to GitHub Pages
-gulp.task('deploy', function() {
-
-  // Remove temp folder
-  if (argv.clean) {
-    var os = require('os');
-    var path = require('path');
-    var repoPath = path.join(os.tmpdir(), 'tmpRepo');
-    $.util.log('Delete ' + $.util.colors.magenta(repoPath));
-    del.sync(repoPath, {force: true});
-  }
-
-  return gulp.src(DEST + '/**/*')
-    .pipe($.if('**/robots.txt', !argv.production ? $.replace('Disallow:', 'Disallow: /') : $.util.noop()))
-    .pipe($.ghPages({
-      remoteUrl: 'https://github.com/{name}/{name}.github.io.git',
-      branch: 'master'
-    }));
 });

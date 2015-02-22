@@ -34,7 +34,7 @@ var Landing = React.createClass({
 	onEnter() {
 		this.props.onEnter()
 	},
-			
+
 	toggleDonate() {
 		this.refs.donate.toggle();
 	},
@@ -46,9 +46,9 @@ var Landing = React.createClass({
 		return (
 			<div styles={this.styles.landingContainer}>
 
-					<MorphButton background="#a15451" style={{float: 'right', margin: 10, borderRadius: 20, height: 40, width: 100}} ref='donate' text='donate' onClick={this.toggleDonate}>
+					<MorphButton background="#a15451" style={{float: 'right', margin: 10, borderRadius: 20, height: 40, width: 100}} ref='donate' text='Support Forky' onClick={this.toggleDonate}>
 						<Morph styles={this.styles.donate} onClose={this.toggleDonate}>
-							<h2 styles={this.styles.donateh2}>{"Support Forky! <3"}</h2>
+							<h2 styles={this.styles.donateh2}>{"Support Forky"}</h2>
 							<form styles={this.styles.donateform} action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 								<input type="hidden" name="cmd" value="_s-xclick" />
 								<input type="hidden" name="hosted_button_id" value="VAYRWAXEMBHB2" />
@@ -59,15 +59,15 @@ var Landing = React.createClass({
 					</MorphButton>
 				<div styles={this.styles.landing}>
 					<h1 styles={this.styles.title}>Forky</h1>
-					
+
 					<span styles={this.styles.slogan}>
 						{slogan1}
 					</span>
-					
+
 					<div styles={this.styles.morphButton}>
 						<Login />
 					</div>
-					
+
 					<div styles={this.styles.morphButton}>
 						<Register />
 					</div>
@@ -76,7 +76,7 @@ var Landing = React.createClass({
 		);
 	},
 
-		
+
 	paypal_active() {
 		return this.state.donate == false ? null : ReactStyle({
 			visibility: 'visible'
