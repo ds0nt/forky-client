@@ -1,32 +1,35 @@
 # Forky Client
 
-Forky is for real-time and collaborative mind maps. 
+**Forky** is an app for realtime collaborative mind-mapping. You can use it on [forky.io](http://forky.io).
 
-Check it out at [forky.io](http://forky.io).
-
-The client is built using reactjs, websockets, sharejs, webpack, and gulp among other things. [Forky Server](http://github.com/21cdawn/forky-server) will run the backend.
+The Forky Client is the front-end of forky. It should be used with a [Forky Server](http://github.com/21cdawn/forky-server). You can check out the full guide for deploying forky (here)[http://github.com/21cdawn/forky]. This Readme covers details specific to the client.
 
 
-## Build from Source
+## Overview
+
+Forky is a single-page application, built with React. It communicates using both websockets and ajax, and dynamically renders the resulting elements. Websockets transport realtime data, primarily chats and graph edits. AJAX is used for user authentication, and listing the maps. Realtime collaboration is built on ShareJS, but I would like to move away from ShareJS, as it is not well written or documented.
+
+
+## Building Forky Client
+
+Get git and nodejs installed if you don't have them.
 
 ```bash
- # clone this repository
- $ git clone http://github.com/21cdawn/forky-client
+
+ $ git clone https://github.com/21cdawn/forky-client
 
  # install the node dependencies
  $ cd forky-client
  $ npm install
 
- # and build it
- $ gulp build
- 
- # or build repeatedly
- $ gulp watch
+
+ # build the client
+ $ gulp build    # builds into 'dist' folder by default
+
+
 ```
 
 
-## Contribute
+## Development
 
-We are actively developing the project towards the current [roadmap] (http://forky.io/roadmap) and have some [pretty epic goals](http://forky.io/vision). Come chill in freenode IRC at ##forky. 
-
-Forky is a project of [Dawn](http://itdawns.org). Check `em out.
+*Placeholder for Development Instructions*
