@@ -60,9 +60,64 @@ var BackDrop = React.createClass({
 	},
 });
 
+
+var Alerts = React.createClass({
+	mixins: [Reflux.ListenerMixin],
+
+	getInitialState() {
+		return {
+				alerts: []
+			}
+	},
+
+	componentDidMount() {
+
+		this.listenTo(actions.alerts.create, (value, kill) => {
+
+			var alerts = this.state.alerts;
+			alerts.push(value);
+
+			kill = kill || _.partial(setTimeout, _, 5000);
+
+			kill(() => {
+				this.setState({
+					alerts: _.without(this.state.alerts, value)
+				});
+			});
+
+			this.setState({
+				alerts: alerts
+			});
+
+		});
+
+	},
+
+	render() {
+		var alerts = _.map(this.state.alerts, (v) => {
+			return <li>{v}</li>
+		});
+
+		return (<ul styles={this.styles.alerts}>{alerts}</ul>);
+	},
+
+	styles: {
+		alerts: ReactStyle({
+			textAlign: 'center',
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			right: 0,
+			margin: 'auto',
+			width: '500px',
+		}),
+	}
+});
+
 var Util = React.createClass({
 	render() {
 		return <div>
+			<Alerts />
 			<BackDrop />
 		</div>
 	},

@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react');
-var AnimateMixin = require('../../mixins/animate.jsx');
+var AnimateMixin = require('../../mixins/animate.js');
 var CSSCore = require('react/lib/CSSCore');
 var CSSPropertyOperations = require('react/lib/CSSPropertyOperations');
 

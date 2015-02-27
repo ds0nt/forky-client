@@ -8,6 +8,7 @@ var React = require('react');
 var Reflux = require('reflux');
 // var StripeButton = require('../external/stripe.jsx');
 
+
 var NewMap = require('../component/new-map.jsx');
 var Nav = require('./nav.jsx');
 var MorphButton = require('../component/morph-button.jsx');

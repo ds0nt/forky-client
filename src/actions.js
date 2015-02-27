@@ -17,3 +17,15 @@ global.actions.backdrop = Reflux.createActions([
 	'open',
 	'close',
 ]);
+
+global.actions.socket = Reflux.createActions([
+	'connecting',
+	'connected',
+	'disconnected',
+	'stopped',
+]);
+
+
+global.actions.alerts = Reflux.createActions([
+	'create'
+]);

@@ -1,55 +1,46 @@
 {
-  "name": "react-starter-kit",
-  "private": true,
-  "version": "0.0.0",
-  "description": "React / Flux  Starter Kit",
-  "repository": "https://github.com/kriasoft/react-starter-kit",
-  "license": "MIT",
-  "dependencies": {
-    "gulp": "^3.8.11",
-    "react": "^0.12.0",
-    "reflux": "^0.1.13"
-  },
-  "devDependencies": {
-    "browser-sync": "^1.5.8",
-    "del": "^0.1.3",
-    "extract-text-webpack-plugin": "^0.3.4",
-    "gulp-cache": "^0.2.4",
-    "gulp-changed": "^1.0.0",
-    "gulp-if": "^1.2.5",
-    "gulp-load-plugins": "^0.7.0",
-    "gulp-plumber": "^0.6.6",
-    "gulp-render": "^0.0.4",
-    "gulp-replace": "^0.4.0",
-    "gulp-sass": "^1.1.0",
-    "gulp-util": "^3.0.3",
-    "jsx-loader": "^0.12.0",
-    "minimist": "^1.1.0",
-    "protractor": "^1.3.1",
-    "psi": "^0.1.3",
-    "qwest": "^1.0.0",
-    "react-router": "^0.10.2",
-    "react-style": "^0.3.0",
-    "react-style-webpack-plugin": "git://github.com/js-next/react-style-webpack-plugin",
-    "react-tools": "^0.12.0",
-    "react-tween-state": "0.0.4",
-    "run-sequence": "^1.0.1",
-    "share": "^0.7.3",
-    "underscore": "^1.7.0",
-    "url-loader": "^0.5.5",
-    "webpack": "^1.4.7"
-  },
-  "jest": {
-    "rootDir": "src",
-    "scriptPreprocessor": "../config/preprocessor.js",
-    "unmockedModulePathPatterns": [
-      "react"
-    ]
-  },
-  "scripts": {
-    "start": "gulp",
-    "test": "jest",
-    "preupdate-webdriver": "npm install",
-    "update-webdriver": "webdriver-manager update"
-  }
+	"name": "forky-client",
+	"version": "1.0.0",
+	"description": "Forky Client",
+	"author": "Daniel Sont <dan.sont@gmail.com>",
+	"repository": "https://github.com/itdawns/forky-client",
+	"engines": {
+		"node": "^0.12.0"
+	},
+	"dependencies": {
+		"gulp": "^3.8.11",
+		"react": "^0.12.0",
+		"react-spinkit": "^0.5.0",
+		"reflux": "^0.1.13"
+	},
+	"devDependencies": {
+		"browser-sync": "^2.2.1",
+		"del": "^0.1.3",
+		"extract-text-webpack-plugin": "^0.3.4",
+		"gulp-cache": "^0.2.4",
+		"gulp-changed": "^1.0.0",
+		"gulp-if": "^1.2.5",
+		"gulp-load-plugins": "^0.7.0",
+		"gulp-plumber": "^0.6.6",
+		"gulp-render": "^0.0.4",
+		"gulp-replace": "^0.4.0",
+		"gulp-sass": "^1.1.0",
+		"gulp-util": "^3.0.3",
+		"jsx-loader": "^0.12.0",
+		"minimist": "^1.1.0",
+		"protractor": "^1.3.1",
+		"psi": "^0.1.3",
+		"qwest": "^1.0.0",
+		"react-hot-loader": "^1.1.5",
+		"react-router": "^0.10.2",
+		"react-style": "^0.3.0",
+		"react-style-webpack-plugin": "git://github.com/js-next/react-style-webpack-plugin",
+		"react-tools": "^0.12.0",
+		"react-tween-state": "0.0.4",
+		"run-sequence": "^1.0.1",
+		"share": "^0.7.3",
+		"underscore": "^1.7.0",
+		"url-loader": "^0.5.5",
+		"webpack": "^1.4.7"
+	}
 }

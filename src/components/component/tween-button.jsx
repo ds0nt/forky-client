@@ -26,10 +26,9 @@ var MorphButton = React.createClass({
 			innerRect: inner.getBoundingClientRect(),
 		});
 
-		console.log('this.state', this.state);
 	},
 
-	componentDidUpdate: function(prevProps, prevState) {
+	componentDidUpdate(prevProps, prevState) {
 		if (prevState.rect == null && this.props.first && !this.state.open) {
 			this.toggle();
 		}
@@ -57,8 +56,6 @@ var MorphButton = React.createClass({
 		//refresh inner rect incase size changed externally
 		var innerRect = this.state.innerRect;
 
-		console.log('rect', rect);
-		console.log('innerRect', innerRect);
 
 		this.tweenState('tweenage', {
 	      easing: tweenState.easingTypes.easing,
@@ -144,7 +141,7 @@ var MorphButton = React.createClass({
 		}
 
 		var propStyle = ReactStyle(this.props.style);
-		
+
 		var bgstyle = ReactStyle({
 			backgroundColor: this.props.background ? this.props.background : '#3594cb'
 		});

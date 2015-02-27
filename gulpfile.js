@@ -13,7 +13,6 @@ var del = require('del');
 var path = require('path');
 var runSequence = require('run-sequence');
 var webpack = require('webpack');
-var browserSync = require('browser-sync');
 var argv = require('minimist')(process.argv.slice(2));
 
 // Settings
@@ -24,19 +23,8 @@ var RELEASE = !!argv.release;                 // Minimize and optimize during a 
 var src = {};
 var watch = false;
 
-// var pkgs = (function() {
-//   var pkgs = {};
-//   var map = function(source) {
-//     for (var key in source) {
-//       pkgs[key.replace(/[^a-z0-9]/gi, '')] = source[key].substring(1);
-//     }
-//   };
-//   map(require('./package.json').dependencies);
-//   return pkgs;
-// }());
-
 // The default task
-gulp.task('default', ['build']);
+gulp.task('default', ['serve']);
 
 // Clean up
 gulp.task('clean', del.bind(null, [DEST], { force: true }));
@@ -48,7 +36,8 @@ gulp.task('vendor', function() {
   );
 });
 
-  src.assets = 'src/assets/**';
+src.assets = 'src/assets/**';
+
 // Static files
 gulp.task('assets', function() {
   return gulp.src(src.assets)
@@ -107,57 +96,13 @@ gulp.task('build', ['clean'], function(cb) {
   runSequence(['vendor', 'assets', 'styles', 'bundle'], cb);
 });
 
+
 gulp.task('watch', function(cb) {
   watch = true;
 
   runSequence('build', function() {
     gulp.watch(src.assets, ['assets']);
     gulp.watch(src.styles, ['styles']);
-    cb();
-  });
-});
-
-// Launch a lightweight HTTP Server
-gulp.task('serve', function(cb) {
-
-  var url = require('url');
-  var fs = require('fs');
-  watch = true;
-
-  runSequence('build', function() {
-    browserSync({
-      notify: false,
-      // Customize the BrowserSync console logging prefix
-      logPrefix: 'RSK',
-      // Run as an https by uncommenting 'https: true'
-      // Note: this uses an unsigned certificate which on first access
-      //       will present a certificate warning in the browser.
-      // https: true,
-      server: {
-        baseDir: DEST,
-        // Allow web page requests without .html file extension in URLs
-        middleware: function(req, res, cb) {
-          var uri = url.parse(req.url);
-          if (uri.pathname.length > 1 &&
-            path.extname(uri.pathname) === '' &&
-            fs.existsSync(DEST + uri.pathname + '.html')) {
-            req.url = uri.pathname + '.html' + (uri.search || '');
-
-            //allow /app/ to load to index.html
-            if (req.url.indexOf('/app/') == 0) {
-              req.url = "/";
-            }
-          }
-          cb();
-        }
-      }
-    });
-
-    gulp.watch(src.assets, ['assets']);
-    gulp.watch(src.styles, ['styles']);
-    gulp.watch(DEST + '/**/*.*', function(file) {
-      browserSync.reload(path.relative(__dirname, file.path));
-    });
     cb();
   });
 });
