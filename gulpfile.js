@@ -24,7 +24,7 @@ var src = {};
 var watch = false;
 
 // The default task
-gulp.task('default', ['serve']);
+gulp.task('default', ['build']);
 
 // Clean up
 gulp.task('clean', del.bind(null, [DEST], { force: true }));
