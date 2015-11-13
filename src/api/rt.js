@@ -45,7 +45,9 @@ actions.socket.disconnected.listen(function () {
 	});
 })
 
+var tokenWS = false
 function createWebSocket(token) {
+        tokenWS = token
 	if (typeof token === 'string') {
 		var socket = new WebSocket(socketPath() + token);
 	} else {
@@ -70,7 +72,7 @@ function reconnectWebSocket(done) {
 	setTimeout(() => {
 		console.log('Teh Binds...');
 		attempts++;
-		var socket = createWebSocket();
+		var socket = createWebSocket(tokenWS);
 		sjsConnection.bindToSocket(socket);
 		done();
 	}, generateInteval());
